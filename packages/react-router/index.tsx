@@ -924,7 +924,7 @@ function compilePath(
 
   if (path.endsWith("*")) {
     if (path.endsWith("/*")) {
-      source += "\\/?"; // Don't include the / in params['*']
+      source += "\\/"; // Don't include the / in params['*']
     }
     keys.push("*");
     source += "(.*)";
