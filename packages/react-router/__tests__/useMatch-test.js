@@ -36,6 +36,35 @@ describe('useMatch', () => {
         params: {}
       });
     });
+
+    it('should not include trailing slash in params with /*', () => {
+      let match;
+      function Layout() {
+        match = useMatch('home/*');
+        return null;
+      }
+
+      function Home() {
+        return <h1>Home</h1>;
+      }
+
+      function About() {
+        return <h1>About</h1>;
+      }
+
+      createTestRenderer(
+        <Router initialEntries={['/home/param']}>
+          <Routes>
+            <Route path="/" element={<Layout />}>
+              <Route path="/home/param" element={<Home />} />
+              <Route path="/about" element={<About />} />
+            </Route>
+          </Routes>
+        </Router>
+      );
+
+      expect(match.params).toEqual({ "*" : 'param' });
+    });
   });
 
   describe('when the path does not match the current URL', () => {
