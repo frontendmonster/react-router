@@ -67,5 +67,34 @@ describe('useMatch', () => {
 
       expect(match).toBe(null);
     });
+
+    it('returns null for path ends with /*', () => {
+      let match;
+      function Layout() {
+        match = useMatch('ho/*');
+        return null;
+      }
+
+      function Home() {
+        return <h1>Home</h1>;
+      }
+
+      function About() {
+        return <h1>About</h1>;
+      }
+
+      createTestRenderer(
+        <Router initialEntries={['/home']}>
+          <Routes>
+            <Route path="/" element={<Layout />}>
+              <Route path="/home" element={<Home />} />
+              <Route path="/about" element={<About />} />
+            </Route>
+          </Routes>
+        </Router>
+      );
+
+      expect(match).toBe(null);
+    });
   });
 });
